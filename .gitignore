@@ -1,0 +1,39 @@
+# Godot Engine
+.godot/
+*.import
+*.translated.po
+*.pot
+*.gd.remap
+*.tres.remap
+*.tres~
+*.gd~
+
+# MonoDevelop
+.monodevelop/
+.mcs.rsp
+
+# Builds
+mono_crash.*.json
+
+# User-specific stuff
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project-specific
+user://
+*.save
+*.dat
+debug.log
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# OS
+Thumbs.db
+.Thumbs.db
