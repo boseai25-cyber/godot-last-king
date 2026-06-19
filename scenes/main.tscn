@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2qxn8tcd3vhd"]
+
+[ext_resource type="Script" path="res://scripts/managers/game_manager.gd"]
+
+[node name="Main" type="Node3D"]
+script = SubResource("GameManager")
+
+[node name="Board" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Pieces" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.866025, 0.25, -0.433013, 0, 0.866025, 0.5, 0.5, -0.433013, 0.75, 8, 12, 12)
+far = 1000.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.866025, 0.25, -0.433013, 0, 0.866025, 0.5, 0.5, -0.433013, 0.75, 0, 20, 0)
+energy_multiplier = 1.2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+unique_name_in_owner = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="HUD" type="Control" parent="UI"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_left = 0.0
+anchors_top = 0.0
+anchors_right = 1.0
+anchors_bottom = 1.0
+
+[node name="TurnManager" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="PieceManager" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="HallucينationManager" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="AudioManager" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="VFXManager" type="Node" parent="."]
+unique_name_in_owner = true
