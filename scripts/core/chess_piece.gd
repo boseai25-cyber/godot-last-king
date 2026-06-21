@@ -223,7 +223,7 @@ func destroy_piece(piece: ChessPiece) -> void:
 			# Dissolve hallucination into vapor
 			var tween = create_tween()
 			tween.tween_property(piece.visual_node, "modulate:a", 0.0, 0.5)
-			await tween.finished
+			tween.tween_callback(func(): piece.visual_node.queue_free())
 		else:
 			# Shatter real piece
 			pass  # VFX handled by VFXManager
