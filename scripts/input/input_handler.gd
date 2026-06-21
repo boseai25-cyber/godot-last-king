@@ -118,7 +118,7 @@ func _attempt_spear_attack() -> void:
 
 func _get_attack_targets(range_limit: int) -> Array[ChessPiece]:
 	"""Get valid attack targets within range"""
-	var targets = Array[ChessPiece]()
+	var targets: Array[ChessPiece] = []
 	var all_pieces = game_manager.board.get_all_pieces()
 	
 	for piece in all_pieces:
