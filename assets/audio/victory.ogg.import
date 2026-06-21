@@ -1,0 +1,14 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://victory"
+
+[deps]
+
+source_file="res://assets/audio/victory.ogg"
+dest_files=["res://.godot/imported/victory.ogg-1234567890abcdef.oggvorbisstr"]
+
+[params]
+
+loop=false
