@@ -1,4 +1,4 @@
-extends RefCounted
+extends Node
 class_name ChessPiece
 
 # Piece types
@@ -45,7 +45,7 @@ func move_to(new_pos: Vector2i) -> bool:
 	# Update visual position
 	if visual_node:
 		var world_pos = board.grid_to_world(new_pos)
-		var tween = create_tween()
+		var tween = visual_node.create_tween()
 		tween.tween_property(visual_node, "position", world_pos, 0.3)
 	
 	return true
@@ -221,7 +221,7 @@ func destroy_piece(piece: ChessPiece) -> void:
 	if piece.visual_node:
 		if piece.is_hallucination:
 			# Dissolve hallucination into vapor
-			var tween = create_tween()
+			var tween = piece.visual_node.create_tween()
 			tween.tween_property(piece.visual_node, "modulate:a", 0.0, 0.5)
 			tween.tween_callback(func(): piece.visual_node.queue_free())
 		else:
