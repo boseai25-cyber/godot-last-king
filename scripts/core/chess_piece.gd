@@ -67,7 +67,7 @@ func is_valid_move(target_pos: Vector2i) -> bool:
 
 func get_valid_moves() -> Array[Vector2i]:
 	"""Get all valid moves for this piece"""
-	var valid = Array[Vector2i]()
+	var valid: Array[Vector2i] = []
 	
 	match piece_type:
 		"Pawn":
@@ -87,7 +87,7 @@ func get_valid_moves() -> Array[Vector2i]:
 
 func _get_pawn_moves() -> Array[Vector2i]:
 	"""Pawn moves forward one square, captures diagonally"""
-	var valid = Array[Vector2i]()
+	var valid: Array[Vector2i] = []
 	var direction = -1 if color == Color.BLACK else 1
 	
 	# Forward move
@@ -107,7 +107,7 @@ func _get_pawn_moves() -> Array[Vector2i]:
 
 func _get_rook_moves() -> Array[Vector2i]:
 	"""Rook moves horizontally or vertically"""
-	var valid = Array[Vector2i]()
+	var valid: Array[Vector2i] = []
 	
 	for direction in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
 		for distance in range(1, board.size):
@@ -127,7 +127,7 @@ func _get_rook_moves() -> Array[Vector2i]:
 
 func _get_knight_moves() -> Array[Vector2i]:
 	"""Knight moves in L-shape"""
-	var valid = Array[Vector2i]()
+	var valid: Array[Vector2i] = []
 	var knight_moves = [
 		Vector2i(2, 1), Vector2i(2, -1), Vector2i(-2, 1), Vector2i(-2, -1),
 		Vector2i(1, 2), Vector2i(1, -2), Vector2i(-1, 2), Vector2i(-1, -2)
@@ -144,7 +144,7 @@ func _get_knight_moves() -> Array[Vector2i]:
 
 func _get_bishop_moves() -> Array[Vector2i]:
 	"""Bishop moves diagonally"""
-	var valid = Array[Vector2i]()
+	var valid: Array[Vector2i] = []
 	
 	for direction in [Vector2i(1, 1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(-1, -1)]:
 		for distance in range(1, board.size):
@@ -164,14 +164,14 @@ func _get_bishop_moves() -> Array[Vector2i]:
 
 func _get_queen_moves() -> Array[Vector2i]:
 	"""Queen moves like rook + bishop"""
-	var valid = Array[Vector2i]()
+	var valid: Array[Vector2i] = []
 	valid.append_array(_get_rook_moves())
 	valid.append_array(_get_bishop_moves())
 	return valid
 
 func _get_king_moves() -> Array[Vector2i]:
 	"""King moves one square in any direction"""
-	var valid = Array[Vector2i]()
+	var valid: Array[Vector2i] = []
 	
 	for dx in [-1, 0, 1]:
 		for dy in [-1, 0, 1]:
