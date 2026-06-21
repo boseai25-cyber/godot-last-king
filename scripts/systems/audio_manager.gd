@@ -8,19 +8,19 @@ var heartbeat_player: AudioStreamPlayer
 var current_music: AudioStreamPlayer
 
 const SOUNDS = {
-	"check": preload("res://assets/audio/check.ogg"),
-	"last_stand": preload("res://assets/audio/last_stand.ogg"),
-	"defeat": preload("res://assets/audio/defeat.ogg"),
-	"victory": preload("res://assets/audio/victory.ogg"),
-	"hallucination_phase_1": preload("res://assets/audio/hallucination_phase_1.ogg"),
-	"hallucination_phase_2": preload("res://assets/audio/hallucination_phase_2.ogg"),
-	"hallucination_attack": preload("res://assets/audio/hallucination_attack.ogg"),
-	"piece_shatter": preload("res://assets/audio/piece_shatter.ogg"),
-	"piece_move": preload("res://assets/audio/piece_move.ogg"),
-	"shotgun_fire": preload("res://assets/audio/shotgun_fire.ogg"),
-	"spear_attack": preload("res://assets/audio/spear_attack.ogg"),
-	"whispering_voices": preload("res://assets/audio/whispering_voices.ogg"),
-	"defeat_sequence": preload("res://assets/audio/defeat_sequence.ogg"),
+	# "check": preload("res://assets/audio/check.ogg"),
+	# "last_stand": preload("res://assets/audio/last_stand.ogg"),
+	# "defeat": preload("res://assets/audio/defeat.ogg"),
+	# "victory": preload("res://assets/audio/victory.ogg"),
+	# "hallucination_phase_1": preload("res://assets/audio/hallucination_phase_1.ogg"),
+	# "hallucination_phase_2": preload("res://assets/audio/hallucination_phase_2.ogg"),
+	# "hallucination_attack": preload("res://assets/audio/hallucination_attack.ogg"),
+	# "piece_shatter": preload("res://assets/audio/piece_shatter.ogg"),
+	# "piece_move": preload("res://assets/audio/piece_move.ogg"),
+	# "shotgun_fire": preload("res://assets/audio/shotgun_fire.ogg"),
+	# "spear_attack": preload("res://assets/audio/spear_attack.ogg"),
+	# "whispering_voices": preload("res://assets/audio/whispering_voices.ogg"),
+	# "defeat_sequence": preload("res://assets/audio/defeat_sequence.ogg"),
 }
 
 func _ready() -> void:
@@ -57,16 +57,16 @@ func play_sound(sound_name: String, volume_db: float = 0.0) -> void:
 
 func play_ambient_music() -> void:
 	"""Play ambient background music"""
-	current_music.stream = preload("res://assets/audio/ambient_music.ogg")
+	# current_music.stream = preload("res://assets/audio/ambient_music.ogg")
 	current_music.volume_db = -5.0
 	current_music.bus = "Music"
-	current_music.play()
+	# current_music.play()
 
 func play_heartbeat(speed: float = 1.0) -> void:
 	"""Play heartbeat sound at given speed"""
-	heartbeat_player.stream = preload("res://assets/audio/heartbeat.ogg")
+	# heartbeat_player.stream = preload("res://assets/audio/heartbeat.ogg")
 	heartbeat_player.pitch_scale = speed
-	heartbeat_player.play()
+	# heartbeat_player.play()
 
 func stop_heartbeat() -> void:
 	"""Stop heartbeat sound"""
@@ -103,10 +103,10 @@ func create_audio_bus_layout() -> void:
 
 func play_last_stand_music() -> void:
 	"""Play intense Last Stand music"""
-	current_music.stream = preload("res://assets/audio/last_stand_music.ogg")
+	# current_music.stream = preload("res://assets/audio/last_stand_music.ogg")
 	current_music.volume_db = 0.0
 	current_music.pitch_scale = 1.2
-	current_music.play()
+	# current_music.play()
 
 func reset_audio() -> void:
 	"""Reset all audio"""
