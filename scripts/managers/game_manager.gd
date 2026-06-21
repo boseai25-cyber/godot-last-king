@@ -7,11 +7,10 @@ enum GamePhase { NORMAL, PHASE_1_HALLUCINATION, PHASE_2_HALLUCINATION, PHASE_3_B
 # Managers
 @onready var turn_manager = $TurnManager
 @onready var piece_manager = $PieceManager
-@onready var hallucination_manager = $HallucninationManager
+@onready var hallucination_manager = $HallucinationManager
 @onready var audio_manager = $AudioManager
 @onready var vfx_manager = $VFXManager
 @onready var camera = $Camera3D
-@onready var ui = $UI/HUD
 @onready var board_node = $Board
 @onready var pieces_node = $Pieces
 
@@ -24,6 +23,7 @@ var willpower: int = 100
 var max_willpower: int = 100
 var last_stand_active: bool = false
 var last_stand_turns_remaining: int = 0
+var ui: Control
 
 # Game configuration
 const BOARD_SIZE = 16
@@ -40,6 +40,18 @@ func _ready() -> void:
 	# Initialize board
 	board = ChessBoard.new(BOARD_SIZE)
 	
+	# Find or create UI
+	if has_node("UI/HUD"):
+		ui = get_node("UI/HUD")
+	else:
+		# Create minimal UI if it doesn't exist
+		var ui_node = Control.new()
+		ui_node.name = "UI"
+		add_child(ui_node)
+		ui = Control.new()
+		ui.name = "HUD"
+		ui_node.add_child(ui)
+	
 	# Setup board visuals
 	_setup_board_visuals()
 	
@@ -52,12 +64,14 @@ func _ready() -> void:
 	# Setup UI
 	_setup_ui()
 	
-	# Start audio
-	audio_manager.play_ambient_music()
+	# Start audio (with null check)
+	if audio_manager:
+		audio_manager.play_ambient_music()
 	
-	# Connect signals
-	turn_manager.turn_started.connect(_on_turn_started)
-	turn_manager.turn_ended.connect(_on_turn_ended)
+	# Connect signals (with null checks)
+	if turn_manager:
+		turn_manager.turn_started.connect(_on_turn_started)
+		turn_manager.turn_ended.connect(_on_turn_ended)
 	
 	# Begin game
 	change_state(GameState.PLAYER_TURN)
@@ -128,7 +142,8 @@ func _create_piece(piece_type: String, color: Color, grid_pos: Vector2i, is_play
 	
 	# Add to board tracking
 	board.place_piece(piece, grid_pos)
-	piece_manager.add_piece(piece)
+	if piece_manager:
+		piece_manager.add_piece(piece)
 	
 	return piece
 
@@ -221,6 +236,9 @@ func _setup_camera() -> void:
 
 func _setup_ui() -> void:
 	"""Initialize UI elements"""
+	if not ui:
+		return
+	
 	# Create HUD elements
 	var willpower_label = Label.new()
 	willpower_label.name = "WillpowerLabel"
@@ -251,7 +269,7 @@ func update_willpower(amount: int) -> void:
 	_check_hallucination_phases()
 	
 	# Update UI
-	if ui.has_node("WillpowerLabel"):
+	if ui and ui.has_node("WillpowerLabel"):
 		ui.get_node("WillpowerLabel").text = "Willpower: %d" % willpower
 	
 	# Check for defeat
@@ -272,7 +290,8 @@ func _check_hallucination_phases() -> void:
 	if new_phase != current_phase:
 		current_phase = new_phase
 		phase_changed.emit(current_phase)
-		hallucination_manager.trigger_phase(current_phase)
+		if hallucination_manager:
+			hallucination_manager.trigger_phase(current_phase)
 
 func change_state(new_state: GameState) -> void:
 	"""Change game state and handle transitions"""
@@ -299,18 +318,20 @@ func change_state(new_state: GameState) -> void:
 
 func _handle_player_turn_start() -> void:
 	"""Start player turn"""
-	if ui.has_node("TurnLabel"):
+	if ui and ui.has_node("TurnLabel"):
 		ui.get_node("TurnLabel").text = "Your Turn"
 
 func _handle_enemy_turn_start() -> void:
 	"""Start enemy turn"""
-	if ui.has_node("TurnLabel"):
+	if ui and ui.has_node("TurnLabel"):
 		ui.get_node("TurnLabel").text = "Enemy Turn"
-	piece_manager.execute_enemy_turns()
+	if piece_manager:
+		piece_manager.execute_enemy_turns()
 
 func _handle_check() -> void:
 	"""Handle check state"""
-	audio_manager.play_sound("check")
+	if audio_manager:
+		audio_manager.play_sound("check")
 	change_state(GameState.PLAYER_TURN)
 
 func _handle_checkmate() -> void:
@@ -321,18 +342,23 @@ func _handle_last_stand() -> void:
 	"""Activate Last Stand mode"""
 	last_stand_active = true
 	last_stand_turns_remaining = 3
-	audio_manager.play_sound("last_stand")
-	vfx_manager.trigger_last_stand_effect()
+	if audio_manager:
+		audio_manager.play_sound("last_stand")
+	if vfx_manager:
+		vfx_manager.trigger_last_stand_effect()
 
 func _handle_game_over() -> void:
 	"""Trigger game over sequence"""
-	audio_manager.play_sound("defeat")
-	vfx_manager.trigger_defeat_sequence()
+	if audio_manager:
+		audio_manager.play_sound("defeat")
+	if vfx_manager:
+		vfx_manager.trigger_defeat_sequence()
 	defeat.emit()
 
 func _handle_victory() -> void:
 	"""Handle victory state"""
-	audio_manager.play_sound("victory")
+	if audio_manager:
+		audio_manager.play_sound("victory")
 	victory.emit()
 
 func _trigger_game_over() -> void:
@@ -358,7 +384,7 @@ func save_game(filename: String) -> void:
 		"player_king_pos": player_king.grid_position,
 		"current_state": current_state,
 		"current_phase": current_phase,
-		"pieces": piece_manager.get_save_data()
+		"pieces": piece_manager.get_save_data() if piece_manager else []
 	}
 	
 	var file = FileAccess.open(filename, FileAccess.WRITE)
@@ -374,4 +400,5 @@ func load_game(filename: String) -> void:
 	
 	willpower = save_data["willpower"]
 	willpower_changed.emit(willpower)
-	piece_manager.load_save_data(save_data["pieces"])
+	if piece_manager:
+		piece_manager.load_save_data(save_data["pieces"])
