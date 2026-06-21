@@ -1,0 +1,14 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://defeat"
+
+[deps]
+
+source_file="res://assets/audio/defeat.ogg"
+dest_files=["res://.godot/imported/defeat.ogg-1234567890abcdef.oggvorbisstr"]
+
+[params]
+
+loop=false
