@@ -4,12 +4,17 @@ class_name PieceManager
 
 var pieces: Array[ChessPiece] = []
 var player_king: ChessPiece
+var game_manager: Node
 
 signal piece_destroyed(piece: ChessPiece)
 signal piece_converted(piece: ChessPiece)
 
 func _ready() -> void:
 	pass
+
+func initialize(gm: Node) -> void:
+	"""Initialize with game manager reference"""
+	game_manager = gm
 
 func add_piece(piece: ChessPiece) -> void:
 	"""Add piece to manager"""
@@ -108,7 +113,8 @@ func _on_piece_destroyed(piece: ChessPiece) -> void:
 	# Check victory condition
 	if piece.color == Color.BLACK and not piece.is_hallucination:
 		if get_enemy_pieces().is_empty():
-			get_tree().get_first_child_in_group("GameManager").change_state(GameManager.GameState.VICTORY)
+			if game_manager:
+				game_manager.change_state(game_manager.GameState.VICTORY)
 
 func _on_piece_converted(piece: ChessPiece) -> void:
 	"""Handle piece conversion"""
