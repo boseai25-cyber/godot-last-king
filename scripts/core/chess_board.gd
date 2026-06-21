@@ -54,7 +54,7 @@ func is_square_attacked(position: Vector2i, by_color: Color) -> bool:
 
 func get_all_pieces() -> Array[ChessPiece]:
 	"""Get all pieces on board"""
-	var pieces = Array[ChessPiece]()
+	var pieces: Array[ChessPiece] = []
 	for piece in board_state.values():
 		if not piece.is_destroyed:
 			pieces.append(piece)
@@ -62,7 +62,7 @@ func get_all_pieces() -> Array[ChessPiece]:
 
 func get_pieces_by_color(color: Color) -> Array[ChessPiece]:
 	"""Get all pieces of given color"""
-	var pieces = Array[ChessPiece]()
+	var pieces: Array[ChessPiece] = []
 	for piece in board_state.values():
 		if piece.color == color and not piece.is_destroyed:
 			pieces.append(piece)
